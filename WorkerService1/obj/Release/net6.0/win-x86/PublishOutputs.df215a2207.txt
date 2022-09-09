@@ -1,0 +1,4 @@
+D:\ravi_workspace\buildbits\appsettings.Development.json
+D:\ravi_workspace\buildbits\appsettings.json
+D:\ravi_workspace\buildbits\WorkerService1.pdb
+D:\ravi_workspace\buildbits\WorkerService1.exe
