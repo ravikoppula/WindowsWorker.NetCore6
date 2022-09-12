@@ -20,10 +20,10 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<JokeService>();
         services.AddHostedService<WindowsBackgroundService>();
 
-            //Entity Framework DB connection  
-            //services.AddDbContext<EmployeeContext>(
-            //options => options.UseSqlServer(ctx.Configuration.GetConnectionString("InitialDBConn")));
-            services.AddDbContext<EmployeeContext>(options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=InitialTestDB;Trusted_Connection=True;"));
+            //Entity Framework DB connection   
+
+            services.AddDbContext<EmployeeContext>(
+                options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=InitialTestDB;Trusted_Connection=True;"));
 
         })
     .ConfigureLogging((context, logging) =>

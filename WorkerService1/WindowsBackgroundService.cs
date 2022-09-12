@@ -25,7 +25,7 @@ namespace WorkerService1
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                    await Task.Delay(1000, stoppingToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
 
                     string joke = _jokeService.GetJoke();
                     _logger.LogWarning("{Joke}", joke);
