@@ -1,34 +1,39 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.EventLog;
+using System;
 using WorkerService1;
 using WorkerService1.Models;
+
+
 
 IHost host = Host.CreateDefaultBuilder(args)
 
     .UseWindowsService(options =>
         {
-        options.ServiceName = ".NET Joke Service";
-        }) 
-    .ConfigureServices((ctx, services) =>
+        options.ServiceName = "e Service";
+        })
+        
+
+    .ConfigureServices((hostContext, services) =>
         {
 
         LoggerProviderOptions.RegisterProviderOptions<EventLogSettings,
         EventLogLoggerProvider>(services);
 
-        services.AddSingleton<JokeService>();
+        services.AddSingleton<JokeService>(); 
+        services.AddHostedService<WindowsBackgroundService>();
 
-
-            services.AddHostedService<WindowsBackgroundService>();
-
-            //Entity Framework DB connection x
+            //Entity Framework DB connection 
             services.AddDbContext<EmployeeContext>(
-                options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=InitialTestDB;Trusted_Connection=True;"));
-             
+            options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=InitialTestDB;Trusted_Connection=True;"));
+
             services.AddTransient<EmplyeeService>();
 
-        })
+        }) 
+
     .ConfigureLogging((context, logging) =>
         {
         // See: https://github.com/dotnet/runtime/issues/47303
@@ -37,5 +42,6 @@ IHost host = Host.CreateDefaultBuilder(args)
         })
 
     .Build();
+ 
 
 await host.RunAsync();

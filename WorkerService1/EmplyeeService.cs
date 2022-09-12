@@ -47,7 +47,7 @@ namespace WorkerService1
         {
             tblEmployee item = new tblEmployee();
             {
-                item.EmployeeName = "rk";
+                item.EmployeeName = "test";
                 item.PhoneNumber = "222222222222";
                 item.SkillID = 7;
                 item.YearsExperience = 9;

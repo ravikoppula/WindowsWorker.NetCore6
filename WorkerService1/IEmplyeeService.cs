@@ -15,6 +15,9 @@ namespace WorkerService1
         List<EmployeeViewModel> GetAllEmployeeDetails();
         tblEmployee AddEmployees();
 
+        //tblEmployee TransferEmployees();
+        //tblSkill TransferSkills();
+
         #endregion 
     }
 }
