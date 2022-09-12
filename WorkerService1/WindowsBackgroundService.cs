@@ -6,15 +6,19 @@ namespace WorkerService1
     {
         private readonly JokeService _jokeService;
         private readonly ILogger<WindowsBackgroundService> _logger;
-        private readonly EmployeeContext _db;
+        //private readonly EmployeeContext _db;
+        private readonly EmplyeeService _emplyeeService;
 
         public WindowsBackgroundService( JokeService jokeService,
-                                        ILogger<WindowsBackgroundService> logger, 
-                                        IServiceScopeFactory factory)
+                                        ILogger<WindowsBackgroundService> logger,
+                                        //IServiceScopeFactory factory
+                                        EmplyeeService emplyeeService
+            )
         {
             _jokeService = jokeService;
-            _logger = logger; 
-            _db = factory.CreateScope().ServiceProvider.GetRequiredService<EmployeeContext>();
+            _logger = logger;
+            //_db = factory.CreateScope().ServiceProvider.GetRequiredService<EmployeeContext>();
+            _emplyeeService = emplyeeService;
         }
 
 
@@ -31,14 +35,20 @@ namespace WorkerService1
                     _logger.LogWarning("{Joke}", joke);
 
                     tblEmployee item = new tblEmployee();
-                    //item.EmployeeID = 7;
-                    item.EmployeeName = "test";
-                    item.PhoneNumber = "01128102433";
-                    item.SkillID = 5;
-                    item.YearsExperience = 8;
 
-                    _db.tblEmployees.Add(item);
-                    await _db.SaveChangesAsync();
+                    //item.EmployeeName = "test";
+                    //item.PhoneNumber = "01128102433";
+                    //item.SkillID = 5;
+                    //item.YearsExperience = 8;
+
+                    //_db.tblEmployees.Add(item);
+                    //await _db.SaveChangesAsync();
+                  var result =  _emplyeeService.AddEmployees();
+                    _logger.LogInformation("Inserted Successfully", result);
+
+                    //var result2 = _emplyeeService.GetAllEmployeeDetails();
+                    //_logger.LogInformation("GetAll Employee Details", result2);
+
 
                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
 

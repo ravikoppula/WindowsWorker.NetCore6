@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace WorkerService1
     {
         #region Contructor 
 
-        private readonly EmployeeContext _context;
+        private readonly ILogger<WindowsBackgroundService> _logger;
+        private readonly EmployeeContext _db;
 
-        public EmplyeeService(EmployeeContext context )
+        public EmplyeeService(ILogger<WindowsBackgroundService> logger, IServiceScopeFactory factory)
         {
-            _context = context;
+            _logger = logger;
+            _db = factory.CreateScope().ServiceProvider.GetRequiredService<EmployeeContext>();
 
         }
 
@@ -25,8 +28,8 @@ namespace WorkerService1
 
         public List<EmployeeViewModel> GetAllEmployeeDetails()
         {
-            var Results = (from e in _context.tblEmployees
-                           join s in _context.tblSkills on e.SkillID equals s.SkillID
+            var Results = (from e in _db.tblEmployees
+                           join s in _db.tblSkills on e.SkillID equals s.SkillID
                            select new EmployeeViewModel
                            {
                                EmployeeID = e.EmployeeID,
@@ -39,5 +42,23 @@ namespace WorkerService1
             return Results;
 
         }
+
+        public tblEmployee AddEmployees()
+        {
+            tblEmployee item = new tblEmployee();
+            {
+                item.EmployeeName = "rk";
+                item.PhoneNumber = "222222222222";
+                item.SkillID = 7;
+                item.YearsExperience = 9;
+
+                _db.tblEmployees.Add(item);
+
+                _db.SaveChangesAsync();
+            }
+
+            return item;
+        }
+         
     }
 }

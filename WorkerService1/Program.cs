@@ -18,12 +18,15 @@ IHost host = Host.CreateDefaultBuilder(args)
         EventLogLoggerProvider>(services);
 
         services.AddSingleton<JokeService>();
-        services.AddHostedService<WindowsBackgroundService>();
 
-            //Entity Framework DB connection   
 
+            services.AddHostedService<WindowsBackgroundService>();
+
+            //Entity Framework DB connection x
             services.AddDbContext<EmployeeContext>(
                 options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=InitialTestDB;Trusted_Connection=True;"));
+             
+            services.AddTransient<EmplyeeService>();
 
         })
     .ConfigureLogging((context, logging) =>
